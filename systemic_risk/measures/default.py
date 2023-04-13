@@ -3,6 +3,7 @@ from math import log, sqrt, exp
 from statistics import NormalDist
 import numpy as np
 from numpy.random import RandomState
+import pandas as pd
 from typing import Tuple
 from scipy.optimize import fsolve
 from scipy.stats import norm
@@ -83,8 +84,8 @@ def cca(
 
 
 def distress_insurance_premium(
-    default_prob: np.ndarray,
-    correlations: np.ndarray,
+    default_prob,
+    correlations,
     default_threshold: float = 0.15,
     random_seed: int = 0,
     n_simulated_returns: int = 500_000,
@@ -92,25 +93,24 @@ def distress_insurance_premium(
 ) -> float:
     """
     Distress Insurance Preimum (DIP)
-    A systemic risk metric by [Huang, Zhou, and Zhu (2009)](https://doi.org/10.1016/j.jbankfin.2009.05.017)
+    A systemic risk metric
     which represents a hypothetical insurance premium against a systemic financial distress, defined as total losses that
     exceed a given threshold, say 15%, of total bank liabilities.
 
-    :param default_prob: (np.ndarray): (n_banks,) array of the bank risk-neutral default probabilities.
-
-    :param correlations: (np.ndarray): (n_banks, n_banks) array of the correlation matrix of the banks' asset returns.
-
+    :param default_prob: (np.ndarray or pd.DataFrame): (n_banks,) array of the bank risk-neutral default probabilities.
+    :param correlations: (np.ndarray or pd.DataFrame): (n_banks, n_banks) array of the correlation matrix of the banks' asset returns.
     :param default_threshold: (float, optional): the threshold used to calculate the total losses to total liabilities. Defaults to 0.15.
-
     :param random_seed: (int, optional): the random seed used in Monte Carlo simulation for reproducibility. Defaults to 0.
-
     :param n_simulated_returns: (int, optional): the number of simulations to compute the distrituion of joint defaults. Defaults to 500,000.
-
     :param n_simulations: (int, optional): the number of simulations to compute the probability of losses. Defaults to 1,000.
 
     :return: float:
     The distress insurance premium against a systemic financial distress.
     """
+    if isinstance(default_prob, pd.DataFrame):
+        default_prob = default_prob.to_numpy
+    if isinstance(correlations, pd.DataFrame):
+        correlations = correlations.to_numpy
 
     # Use the class to avoid impacting the global numpy state
     rng = RandomState(random_seed)

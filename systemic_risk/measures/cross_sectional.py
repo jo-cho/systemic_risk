@@ -6,11 +6,9 @@ def marginal_expected_shortfall(
 ) -> float:
     """Marginal Expected Shortfall (MES).
     The firm's average return during the 5% worst days for the market.
-    MES measures how exposed a firm is to aggregate tail shocks and, interestingly, together with leverage, \
-    it has a significant explanatory power for which firms contribute to a potential crisis as noted by \
-    [Acharya, Pedersen, Philippon, and Richardson (2010)](https://doi.org/10.1093/rfs/hhw088).
+    MES measures how exposed a firm is to aggregate tail shocks and, interestingly, together with leverage,
+    it has a significant explanatory power for which firms contribute to a potential crisis
 
-    It is used to construct the [Systemic Expected Shortfall](/measures/systemic_expected_shortfall/).
     Args:
         firm_returns (np.ndarray): (n_days,) array of the returns (equity or CDS) for the firm.
         market_returns (np.ndarray): (n_days,) array of the returns (equity or CDS) for the market as a whole.
@@ -34,8 +32,7 @@ def systemic_expected_shortfall(
     lvg_firm: float,
 ) -> float:
     r"""Systemic Expected Shortfall (SES)
-    A measure of a financial institution's contribution to a systemic crisis by
-    [Acharya, Pedersen, Philippon, and Richardson (2017)](https://doi.org/10.1093/rfs/hhw088), which equals to
+    A measure of a financial institution's contribution to a systemic crisis, which equals to
     the expected amount a bank is undercapitalized in a future systemic event in which the overall financial system is undercapitalized.
     Args:
         mes_training_sample (np.ndarray): (n_firms,) array of firm ex ante MES.

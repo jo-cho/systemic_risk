@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def absorption_ratio(
-        asset_returns: np.ndarray, fraction_eigenvectors: float = 0.2
+        asset_returns, fraction_eigenvectors=0.2
 ) -> float:
     """
     A measure of systemic risk defined as the fraction of the total variance of a set of asset returns
@@ -12,7 +12,6 @@ def absorption_ratio(
 
     :param asset_returns: (np.ndarray or pd.DataFrame):
     (n_days, n_assets) arrays of asset returns
-
     :param fraction_eigenvectors: (float, optional):
     The fraction of eigenvectors used to calculate the absorption ratio. Defaults to 0.2 as in the paper
 
